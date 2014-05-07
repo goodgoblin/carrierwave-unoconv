@@ -13,7 +13,7 @@ module CarrierWave
 
       File.rename( current_path, tmpfile )
       begin
-        Timeout.timeout(.0001) do
+        Timeout.timeout(0.0001) do
           pid = %x[unoconv -f "#{format}" "'#{tmpfile}'" & echo $!]
           #system "unoconv -f #{format} '#{tmpfile}'"
           File.rename( File.join(directory, "tmpfile.#{format}"), current_path )
