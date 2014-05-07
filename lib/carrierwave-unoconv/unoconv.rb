@@ -15,6 +15,7 @@ module CarrierWave
       begin
         Timeout.timeout(0.0001) do
           pid = %x[unoconv -f "#{format}" "'#{tmpfile}'" & echo $!]
+          Rails.logger.debug("PID IS #{pid}")
           #system "unoconv -f #{format} '#{tmpfile}'"
           File.rename( File.join(directory, "tmpfile.#{format}"), current_path )
           File.delete( tmpfile )
@@ -23,7 +24,9 @@ module CarrierWave
           end
         end
       rescue Timeout::Error
+        Rails.logger.debug("TIMEOUT OCCURRED!!!!!!")
         system "kill #{pid.to_i}"
+        Rails.logger.debug("KILLED PROCESS #{pid.to_i}")
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
         end
