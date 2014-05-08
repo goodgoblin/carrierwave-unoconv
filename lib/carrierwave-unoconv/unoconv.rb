@@ -16,7 +16,9 @@ module CarrierWave
         Rails.logger.debug("BEGIN CONVERT!!!")
         Timeout.timeout(10) do
           pid = Process.spawn("unoconv -f #{format} #{tmpfile}")
+          Rails.logger.debug("Conversion Started!!!")
           Process.wait(pid)
+          Rails.logger.debug("Conversion Finished!!!")
         end
           Rails.logger.debug("PID IS #{pid}")
           #system "unoconv -f #{format} '#{tmpfile}'"
