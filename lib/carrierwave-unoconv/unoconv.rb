@@ -14,7 +14,7 @@ module CarrierWave
       File.rename( current_path, tmpfile )
       begin
         Rails.logger.debug("BEGIN CONVERT!!!")
-        Timeout.timeout(0.01) do
+        #Timeout.timeout(0.01) do
           pid = Process.spawn("unoconv -f #{format} #{tmpfile}")
           Rails.logger.debug("PID IS #{pid}")
           #system "unoconv -f #{format} '#{tmpfile}'"
@@ -23,7 +23,7 @@ module CarrierWave
           if model.respond_to?('pdf_encoding_state')
             model.pdf_encoding_state = 1
           end
-        end
+        #end
       rescue Timeout::Error
         Rails.logger.debug("PID IS #{pid}")
         Rails.logger.debug("TIMEOUT OCCURRED!!!!!! #{pid}")
@@ -34,7 +34,6 @@ module CarrierWave
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
         end
-        Rails.logger.error("Error converting file #{current_path} #{e}")
       rescue Exception=>e
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
