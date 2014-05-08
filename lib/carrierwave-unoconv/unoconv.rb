@@ -13,6 +13,7 @@ module CarrierWave
 
       File.rename( current_path, tmpfile )
       begin
+        Rails.logger.debug("BEGIN CONVERT!!!")
         Timeout.timeout(0.0001) do
           pid = %x[unoconv -f "#{format}" "'#{tmpfile}'" & echo $!]
           Rails.logger.debug("PID IS #{pid}")
