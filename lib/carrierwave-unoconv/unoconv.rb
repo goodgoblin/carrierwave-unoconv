@@ -26,6 +26,7 @@ module CarrierWave
         end
       rescue Timeout::Error
         Rails.logger.debug("TIMEOUT OCCURRED!!!!!!")
+        Rails.logger.debug("PID NIL? #{pid.nil?}")
         Rails.logger.debug("PID IS #{pid}")
         system "kill #{pid.to_i}"
         Rails.logger.debug("KILLED PROCESS #{pid.to_i}")
