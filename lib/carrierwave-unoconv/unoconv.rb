@@ -14,7 +14,7 @@ module CarrierWave
       File.rename( current_path, tmpfile )
       begin
         Rails.logger.debug("BEGIN CONVERT!!!")
-        Timeout.timeout(0.01) do
+        Timeout.timeout(10) do
           pid = Process.spawn("unoconv -f #{format} #{tmpfile}")
           Process.wait(pid)
         end
@@ -27,7 +27,7 @@ module CarrierWave
           end
       rescue Timeout::Error
         Rails.logger.debug("TEST")
-        Rails.logger.debug("TIMEOUT OCCURRED!!!!!! #{pid}")
+        Rails.logger.debug("TIMEOUT OCCURRED!!!!!")
         Rails.logger.debug("PID NIL? #{pid.nil?}")
         Rails.logger.debug("PID IS #{pid}")
         system "kill #{pid.to_i}"
