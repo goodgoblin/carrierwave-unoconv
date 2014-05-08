@@ -15,12 +15,12 @@ module CarrierWave
       begin
         Rails.logger.debug("BEGIN CONVERT!!!")
         Timeout.timeout(10) do
-          pid = Process.spawn("unoconv -f #{format} #{tmpfile}")
+          @pid = Process.spawn("unoconv -f #{format} #{tmpfile}")
           Rails.logger.debug("Conversion Started!!!")
-          Process.wait(pid)
+          Process.wait(@pid)
           Rails.logger.debug("Conversion Finished!!!")
         end
-          Rails.logger.debug("PID IS #{pid}")
+          Rails.logger.debug("PID IS #{@pid}")
           #system "unoconv -f #{format} '#{tmpfile}'"
           File.rename( File.join(directory, "tmpfile.#{format}"), current_path )
           File.delete( tmpfile )
@@ -30,10 +30,10 @@ module CarrierWave
       rescue Timeout::Error
         Rails.logger.debug("TEST")
         Rails.logger.debug("TIMEOUT OCCURRED!!!!!")
-        Rails.logger.debug("PID NIL? #{pid.nil?}")
-        Rails.logger.debug("PID IS #{pid}")
-        system "kill #{pid.to_i}"
-        Rails.logger.debug("KILLED PROCESS #{pid.to_i}")
+        Rails.logger.debug("PID NIL? #{@pid.nil?}")
+        Rails.logger.debug("PID IS #{@pid}")
+        system "kill #{@pid.to_i}"
+        Rails.logger.debug("KILLED PROCESS #{@pid.to_i}")
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
         end
