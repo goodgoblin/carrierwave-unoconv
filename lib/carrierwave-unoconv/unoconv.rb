@@ -27,7 +27,7 @@ module CarrierWave
           File.delete( tmpfile )
           if model.respond_to?('pdf_encoding_state')
             model.pdf_encoding_state = 1
-            model.save
+            model.save!
           end
       rescue Timeout::Error
         Rails.logger.debug("TEST")
@@ -38,12 +38,12 @@ module CarrierWave
         Rails.logger.debug("KILLED PROCESS #{@pid.to_i}")
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
-          model.save
+          model.save!
         end
       rescue Exception=>e
         if model.respond_to?('pdf_encoding_state')
           model.pdf_encoding_state = 2
-          model.save
+          model.save!
         end
         Rails.logger.error("Error converting file #{current_path} #{e}")
       end
